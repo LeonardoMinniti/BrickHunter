@@ -25,7 +25,7 @@ public class BallStop : MonoBehaviour {
             //Stopping the Ball
             ball.velocity = Vector2.zero;
             //Set the ball as active
-            ballControl.canInteract = true;
+            ballControl.currentBallState = BallController.ballState.aim;
         }
     }
 }
