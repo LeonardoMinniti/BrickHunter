@@ -163,6 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85901c7352d0214d92d445f986ba94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brickDestroyParticle: {fileID: 1949889950931802, guid: 7b241dff6d716444995e1efee0e074b6,
+    type: 2}
   brickHealth: 10
 --- !u!114 &114311233973453036
 MonoBehaviour:

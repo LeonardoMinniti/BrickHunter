@@ -14,12 +14,19 @@ public class BrickMovementController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        hasMoved = false;
         currentState = brickState.stop;
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnEnable()
+    {
+        hasMoved = false;
+        currentState = brickState.stop;
+    }
+
+    // Update is called once per frame
+    void Update () {
         if(currentState == brickState.stop)
         {
             hasMoved = false;
