@@ -6,10 +6,12 @@ public class BallStop : MonoBehaviour {
 
     public Rigidbody2D ball;
     public BallController ballControl;
+    private GameManager gameManager;
 
 
 	// Use this for initialization
 	void Start () {
+        gameManager = FindObjectOfType<GameManager>();
 		
 	}
 	
@@ -25,7 +27,13 @@ public class BallStop : MonoBehaviour {
             //Stopping the Ball
             ball.velocity = Vector2.zero;
             //Set the ball as active
-            ballControl.currentBallState = BallController.ballState.aim;
+            ballControl.currentBallState = BallController.ballState.wait;
+        }
+        
+        if(other.gameObject.tag == "Extra Ball")
+        {
+            gameManager.ballsInScene.Remove(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 }

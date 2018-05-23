@@ -9,7 +9,8 @@ public class BallController : MonoBehaviour {
         aim,
         fire,
         wait,
-        endShot
+        endShot,
+        endGame
     }
 
     public ballState currentBallState;
@@ -17,6 +18,8 @@ public class BallController : MonoBehaviour {
     public Rigidbody2D ball;
     private Vector2 mouseStartPosition;
     private Vector2 mouseEndPosition;
+    public Vector2 tempVelocity;
+    public Vector3 ballLaunchPosition;
     public bool didClick;
     public bool didDrag;
     public bool canInteract;
@@ -24,10 +27,13 @@ public class BallController : MonoBehaviour {
     private float ballVelocityY;
     public float constantSpeed;
     public GameObject arrow;
+    private GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
+        gameManager = FindObjectOfType<GameManager>();
         currentBallState = ballState.aim;
+        gameManager.ballsInScene.Add(this.gameObject);
 	}
 	
 	// Update is called once per frame
@@ -51,8 +57,24 @@ public class BallController : MonoBehaviour {
             case ballState.fire:
                 break;
             case ballState.wait:
+                if(gameManager.ballsInScene.Count == 1)
+                {
+                    currentBallState = ballState.endShot;
+                }
                 break;
             case ballState.endShot:
+                for(int i = 0; i < gameManager.bricksInScene.Count; i++)
+                {
+                    if(gameManager.bricksInScene[i] != null)
+                    {
+                        gameManager.bricksInScene[i].GetComponent<BrickMovementController>().currentState = BrickMovementController.brickState.move;
+                    }
+                }
+                gameManager.PlaceBricks();
+                currentBallState = ballState.aim;
+                break;
+
+            case ballState.endGame:
                 break;
             default:
                 break;
@@ -87,12 +109,13 @@ public class BallController : MonoBehaviour {
         mouseEndPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ballVelocityX = (mouseStartPosition.x - mouseEndPosition.x);
         ballVelocityY = (mouseStartPosition.y - mouseEndPosition.y);
-        Vector2 tempVelocity = new Vector2(ballVelocityX, ballVelocityY).normalized;
+        tempVelocity = new Vector2(ballVelocityX, ballVelocityY).normalized;
         ball.velocity = constantSpeed * tempVelocity;
         if(ball.velocity == Vector2.zero)
         {
             return;
         }
+        ballLaunchPosition = transform.position;
         currentBallState = ballState.fire;
     }
 }
