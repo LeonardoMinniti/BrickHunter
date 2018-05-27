@@ -10,6 +10,7 @@ public class BrickHealthManager : MonoBehaviour {
     private GameManager gameManager;
     private ScoreManager score;
     private SoundManager sound;
+    private GameObject button;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +30,7 @@ public class BrickHealthManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        
         brickHealthText.text = "" + brickHealth;
         if(brickHealth<= 0)
         {
@@ -46,12 +48,13 @@ public class BrickHealthManager : MonoBehaviour {
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if(other.gameObject.tag == "Ball" || other.gameObject.tag == "Extra Ball")
-        {
-            sound.ballHit.Play();
-            TakeDamage(1);
-            score.IncreaseScore();
-        }
+
+            if (other.gameObject.tag == "Ball" || other.gameObject.tag == "Extra Ball")
+            {
+                sound.ballHit.Play();
+                TakeDamage(1);
+                score.IncreaseScore();
+            }
         
     }
 }

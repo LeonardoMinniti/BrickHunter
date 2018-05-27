@@ -13,21 +13,27 @@ public class ExtraBallManager : MonoBehaviour {
     public int numberOfBallsToFire;
     public ObjectPool objectPool;
     public Text numberOfBallsText;
+    public ReturnTheFuckingBall extraBall;
+    public GameManager extraBallsReturn;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         ballController = FindObjectOfType<BallController>();
         gameManager = FindObjectOfType<GameManager>();
+        extraBall = FindObjectOfType<ReturnTheFuckingBall>();
         ballWaitTimeSeconds = ballWaitTime;
         numberOfExtraBalls = 0;
         numberOfBallsToFire = 0;
         numberOfBallsText.text = "" + 1;
+        extraBallsReturn = GameObject.Find("Game Manager").GetComponent<GameManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         numberOfBallsText.text = "" + (numberOfExtraBalls + 1);
+
+        
         if(ballController.currentBallState == BallController.ballState.fire || ballController.currentBallState == BallController.ballState.wait)
         {
             if(numberOfBallsToFire > 0)
@@ -47,6 +53,21 @@ public class ExtraBallManager : MonoBehaviour {
                     }
                     ballWaitTimeSeconds = ballWaitTime;
                 }
+            }
+        }
+
+        if(extraBall.check == true)
+        {
+            for (int i = 1; i < extraBallsReturn.ballsInScene.Count; i++)
+            {
+                extraBallsReturn.ballsInScene[i].transform.position = new Vector3(0f, -4.12f, 0f);
+                extraBallsReturn.ballsInScene[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0f, -1f);
+                //extraBallsReturn.ballsInScene[i].SetActive(false);
+
+            }
+            for (int i = 1; i < extraBallsReturn.ballsInScene.Count; i++)
+            {
+                extraBallsReturn.ballsInScene.Remove(extraBallsReturn.ballsInScene[i]);
             }
         }
 

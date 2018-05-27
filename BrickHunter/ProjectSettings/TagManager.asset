@@ -9,6 +9,8 @@ TagManager:
   - Triangle Brick
   - Extra Ball
   - Extra Ball Powerup
+  - ReturnBall
+  - Button Script
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - 
   - Ball
-  - 
+  - DontTouchTheBricks
   - 
   - 
   - 
